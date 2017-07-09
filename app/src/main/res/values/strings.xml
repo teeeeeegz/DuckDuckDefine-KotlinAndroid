@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">DuckDuckDefineKotlin</string>
+    <string name="activity_search">Search</string>
+</resources>

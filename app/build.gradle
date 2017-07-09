@@ -1,0 +1,108 @@
+apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
+apply plugin: "kotlin-kapt"
+apply plugin: "com.getkeepsafe.dexcount"
+
+// Manifest version information
+def final VERSION_MAJOR = 1
+def final VERSION_MINOR = 0
+def final VERSION_PATCH = 0
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.0"
+    defaultConfig {
+        applicationId "au.com.michaeltigas.duckduckdefinekotlin"
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 1
+        versionName "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "DUCKDUCKGO_API_URL", '"https://api.duckduckgo.com"'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dexOptions {
+        preDexLibraries true // Faster incremental builds - Disable for CI
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+///// Library dependency version values /////
+// Google libraries
+def final V_SUPPORT_LIB             = "26.0.0-beta1"
+
+// Architecture libraries
+def final V_DAGGER                  = "2.11"
+def final V_RXJAVA                  = "2.1.1"
+def final V_RXANDROID               = "2.0.1"
+def final V_RXKOTLIN                = "2.1.0"
+
+// Network libraries
+def final V_RETROFIT                = "2.3.0"
+def final V_OKHTTP                  = "3.8.1"
+def final V_MOSHI                   = "1.5.0"
+
+// Image libraries
+def final V_PICASSO                 = "2.5.2"
+def final V_PICASSO_OKHTTP3_DL      = "1.1.0"
+
+// Dev libraries
+def final V_TIMBER                  = "4.5.1"
+
+// Test libraries
+def final V_JUNIT                   = "4.12"
+def final V_SUPPORTTEST_ESPRESSO    = "2.2.2"
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    // Google Support libraries
+    implementation "com.android.support:design:$V_SUPPORT_LIB"
+    implementation "com.android.support:recyclerview-v7:$V_SUPPORT_LIB"
+
+    // Architecture libraries
+    implementation "com.google.dagger:dagger:$V_DAGGER"
+    kapt "com.google.dagger:dagger-compiler:$V_DAGGER"
+    implementation "io.reactivex.rxjava2:rxjava:$V_RXJAVA"
+    implementation "io.reactivex.rxjava2:rxandroid:$V_RXANDROID"
+    implementation "io.reactivex.rxjava2:rxkotlin:$V_RXKOTLIN"
+
+    // Network libraries
+    implementation "com.squareup.retrofit2:retrofit:$V_RETROFIT"
+    implementation "com.squareup.retrofit2:converter-moshi:$V_RETROFIT"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$V_RETROFIT"
+    implementation "com.squareup.okhttp3:okhttp:$V_OKHTTP"
+    implementation "com.squareup.okhttp3:logging-interceptor:$V_OKHTTP"
+    implementation "com.squareup.moshi:moshi:$V_MOSHI"
+
+    // Image libraries
+    implementation "com.squareup.picasso:picasso:$V_PICASSO"
+    implementation "com.jakewharton.picasso:picasso2-okhttp3-downloader:$V_PICASSO_OKHTTP3_DL"
+
+    // Dev libraries
+    implementation "com.jakewharton.timber:timber:$V_TIMBER"
+
+    // Unit tests dependencies
+    testImplementation "junit:junit:$V_JUNIT"
+
+    // Instrumentation test dependencies
+    androidTestImplementation("com.android.support.test.espresso:espresso-core:$V_SUPPORTTEST_ESPRESSO", {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+}
